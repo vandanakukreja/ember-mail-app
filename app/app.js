@@ -15,4 +15,25 @@ App = Ember.Application.extend({
 
 loadInitializers(App, config.modulePrefix);
 
+App.DateHelper = Ember.Helper.helper(function(date) {
+  return moment(date[0]).format('MMM Do');
+});
+
+App.Mailbox = Ember.Object.extend();
+App.Mailbox.reopenClass({
+  find: function(id) {
+    if (id) {
+      return App.FIXTURES.findBy('id', id);
+    } else {
+      return App.FIXTURES;
+    }
+  }
+});
+App.ApplicationRoute = Em.Route.extend({
+  model: function() {
+    return App.Mailbox.find();
+  }
+});
+
+
 export default App;
